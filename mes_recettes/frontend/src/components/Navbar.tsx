@@ -10,6 +10,7 @@ export default function Navbar() {
       <div className="flex gap-4 items-center">
         {user ? (
           <>
+            <Link to="/recipes/new" className="text-sm text-blue-600 hover:underline">+ Nouvelle recette</Link>
             <span className="text-sm text-gray-600">Bonjour {user.username}</span>
             <button onClick={logout} className="text-sm text-red-600 hover:underline">Déconnexion</button>
           </>
