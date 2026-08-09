@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
+import RecipeList from './pages/RecipeList';
 import Login from './pages/Login';
 import Register from './pages/Register';
 
@@ -9,7 +10,7 @@ export default function App() {
       <Navbar />
       <main className="max-w-4xl mx-auto p-6">
         <Routes>
-          <Route path="/" element={<h1 className="text-2xl font-bold">Accueil (recettes à venir)</h1>} />
+          <Route path="/" element={<RecipeList />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Routes>
