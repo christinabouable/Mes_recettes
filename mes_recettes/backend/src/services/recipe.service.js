@@ -37,6 +37,7 @@ async function create(authorId, data) {
       prepTime: data.prepTime,
       cookTime: data.cookTime,
       servings: data.servings,
+      imageUrl: data.imageUrl,
       authorId,
     },
   });

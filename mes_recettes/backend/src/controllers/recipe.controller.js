@@ -1,4 +1,5 @@
 const recipeService = require('../services/recipe.service');
+const { uploadImage } = require('../config/minio');
 
 async function list(req, res, next) {
   try {
@@ -20,14 +21,21 @@ async function getById(req, res, next) {
 
 async function create(req, res, next) {
   try {
-    const { title, description, steps, prepTime, cookTime, servings } = req.body;
+    const { title, description, prepTime, cookTime, servings } = req.body;
+    const steps = typeof req.body.steps === 'string' ? JSON.parse(req.body.steps) : req.body.steps;
 
     if (!title || !steps) {
       return res.status(400).json({ error: 'title et steps sont requis' });
     }
 
+    let imageUrl = null;
+    if (req.file) {
+      const filename = `${Date.now()}-${req.file.originalname}`;
+      imageUrl = await uploadImage(req.file.buffer, filename, req.file.mimetype);
+    }
+
     const recipe = await recipeService.create(req.userId, {
-      title, description, steps, prepTime, cookTime, servings,
+      title, description, steps, prepTime, cookTime, servings, imageUrl,
     });
 
     res.status(201).json(recipe);
@@ -39,11 +47,9 @@ async function create(req, res, next) {
 async function update(req, res, next) {
   try {
     const { title, description, steps, prepTime, cookTime, servings } = req.body;
-
     const recipe = await recipeService.update(req.params.id, req.userId, {
       title, description, steps, prepTime, cookTime, servings,
     });
-
     res.json(recipe);
   } catch (err) {
     next(err);
