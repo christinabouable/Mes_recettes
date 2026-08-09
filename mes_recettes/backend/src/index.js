@@ -5,6 +5,7 @@ const prisma = require('./config/db');
 const authRoutes = require('./routes/auth.routes');
 const recipeRoutes = require('./routes/recipe.routes');
 const errorHandler = require('./middlewares/errorHandler');
+const categoryRoutes = require('./routes/category.routes');
 
 const app = express();
 
@@ -26,10 +27,9 @@ app.get('/api/health/db', async (req, res) => {
 });
 
 app.use('/api/auth', authRoutes);
-
 app.use('/api/recipes', recipeRoutes);
-
 app.use(errorHandler);
+app.use('/api/categories', categoryRoutes);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => console.log(`Backend démarré sur le port ${PORT}`));
