@@ -2,7 +2,11 @@ const router = require('express').Router();
 const requireAuth = require('../middlewares/auth');
 const recipeController = require('../controllers/recipe.controller');
 
-// Route protégée : il faut être connecté pour créer une recette
+// Routes publiques (pas besoin d'être connecté)
+router.get('/', recipeController.list);
+router.get('/:id', recipeController.getById);
+
+// Route protégée
 router.post('/', requireAuth, recipeController.create);
 
 module.exports = router;
