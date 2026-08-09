@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const prisma = require('./config/db');
+const authRoutes = require('./routes/auth.routes');
 
 const app = express();
 
@@ -21,6 +22,8 @@ app.get('/api/health/db', async (req, res) => {
     res.status(500).json({ status: 'error', message: err.message });
   }
 });
+
+app.use('/api/auth', authRoutes);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => console.log(`Backend démarré sur le port ${PORT}`));
