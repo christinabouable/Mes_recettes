@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const prisma = require('./config/db');
 const authRoutes = require('./routes/auth.routes');
+const recipeRoutes = require('./routes/recipe.routes');
 
 const app = express();
 
@@ -24,6 +25,8 @@ app.get('/api/health/db', async (req, res) => {
 });
 
 app.use('/api/auth', authRoutes);
+
+app.use('/api/recipes', recipeRoutes);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => console.log(`Backend démarré sur le port ${PORT}`));
