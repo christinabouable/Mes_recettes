@@ -27,12 +27,7 @@ async function create(req, res, next) {
     }
 
     const recipe = await recipeService.create(req.userId, {
-      title,
-      description,
-      steps,
-      prepTime,
-      cookTime,
-      servings,
+      title, description, steps, prepTime, cookTime, servings,
     });
 
     res.status(201).json(recipe);
@@ -41,4 +36,27 @@ async function create(req, res, next) {
   }
 }
 
-module.exports = { list, getById, create };
+async function update(req, res, next) {
+  try {
+    const { title, description, steps, prepTime, cookTime, servings } = req.body;
+
+    const recipe = await recipeService.update(req.params.id, req.userId, {
+      title, description, steps, prepTime, cookTime, servings,
+    });
+
+    res.json(recipe);
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function remove(req, res, next) {
+  try {
+    await recipeService.remove(req.params.id, req.userId);
+    res.status(204).send();
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports = { list, getById, create, update, remove };
