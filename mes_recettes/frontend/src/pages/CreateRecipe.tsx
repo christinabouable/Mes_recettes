@@ -1,4 +1,4 @@
-import { useState, FormEvent } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import apiClient from '../api/client';
 
@@ -13,7 +13,13 @@ export default function CreateRecipe() {
   const [image, setImage] = useState<File | null>(null);
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [categories, setCategories] = useState<{ id: string; name: string }[]>([]);
+  const [categoryId, setCategoryId] = useState('');
 
+  useEffect(() => {
+  apiClient.get('/categories').then((res) => setCategories(res.data));
+  }, []);
+  
   function updateStep(index: number, value: string) {
     const newSteps = [...steps];
     newSteps[index] = value;
@@ -48,6 +54,7 @@ export default function CreateRecipe() {
       if (cookTime) formData.append('cookTime', cookTime);
       if (servings) formData.append('servings', servings);
       if (image) formData.append('image', image);
+if (categoryId) formData.append('categoryId', categoryId);
 
       const { data } = await apiClient.post('/recipes', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
@@ -87,6 +94,20 @@ export default function CreateRecipe() {
             className="border rounded p-2 w-full"
             rows={3}
           />
+        </div>
+
+        <div>
+         <label className="block text-sm font-medium mb-1">Catégorie</label>
+         <select
+          value={categoryId}
+          onChange={(e) => setCategoryId(e.target.value)}
+          className="border rounded p-2 w-full"
+         >
+          <option value="">Aucune catégorie</option>
+          {categories.map((cat) => (
+            <option key={cat.id} value={cat.id}>{cat.name}</option>
+           ))}
+         </select>
         </div>
 
         <div className="grid grid-cols-3 gap-3">

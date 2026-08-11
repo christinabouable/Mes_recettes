@@ -3,7 +3,8 @@ const { uploadImage } = require('../config/minio');
 
 async function list(req, res, next) {
   try {
-    const recipes = await recipeService.list();
+    const { search, categoryId } = req.query;
+    const recipes = await recipeService.list({ search, categoryId });
     res.json(recipes);
   } catch (err) {
     next(err);
@@ -21,7 +22,7 @@ async function getById(req, res, next) {
 
 async function create(req, res, next) {
   try {
-    const { title, description } = req.body;
+    const { title, description, categoryId } = req.body;
     const steps = typeof req.body.steps === 'string' ? JSON.parse(req.body.steps) : req.body.steps;
 
     const prepTime = req.body.prepTime ? parseInt(req.body.prepTime, 10) : null;
@@ -39,7 +40,7 @@ async function create(req, res, next) {
     }
 
     const recipe = await recipeService.create(req.userId, {
-      title, description, steps, prepTime, cookTime, servings, imageUrl,
+      title, description, steps, prepTime, cookTime, servings, imageUrl, categoryId: categoryId || null,
     });
 
     res.status(201).json(recipe);

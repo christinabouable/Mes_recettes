@@ -1,7 +1,11 @@
 const prisma = require('../config/db');
 
-async function list() {
+async function list({ search, categoryId } = {}) {
   return prisma.recipe.findMany({
+    where: {
+      title: search ? { contains: search, mode: 'insensitive' } : undefined,
+      categoryId: categoryId || undefined,
+    },
     include: {
       author: { select: { id: true, username: true } },
       category: true,
@@ -38,6 +42,7 @@ async function create(authorId, data) {
       cookTime: data.cookTime,
       servings: data.servings,
       imageUrl: data.imageUrl,
+      categoryId: data.categoryId,
       authorId,
     },
   });
