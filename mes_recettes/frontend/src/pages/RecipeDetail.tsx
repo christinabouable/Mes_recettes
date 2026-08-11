@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import apiClient from '../api/client';
+import { useAuth } from '../hooks/useAuth';
 
 interface RecipeDetailData {
   id: string;
@@ -17,9 +18,12 @@ interface RecipeDetailData {
 
 export default function RecipeDetail() {
   const { id } = useParams();
+  const navigate = useNavigate();
+  const { user } = useAuth();
   const [recipe, setRecipe] = useState<RecipeDetailData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     apiClient.get(`/recipes/${id}`)
@@ -28,13 +32,48 @@ export default function RecipeDetail() {
       .finally(() => setLoading(false));
   }, [id]);
 
+  async function handleDelete() {
+    if (!confirm('Supprimer cette recette ? Cette action est irréversible.')) return;
+
+    setDeleting(true);
+    try {
+      await apiClient.delete(`/recipes/${id}`);
+      navigate('/');
+    } catch (err: any) {
+      setError(err.response?.data?.error || 'Erreur lors de la suppression');
+      setDeleting(false);
+    }
+  }
+
   if (loading) return <p className="text-center text-gray-500 mt-10">Chargement...</p>;
   if (error) return <p className="text-center text-red-600 mt-10">{error}</p>;
   if (!recipe) return null;
 
+  const isAuthor = user?.id === recipe.author.id;
+
   return (
     <div>
-      <Link to="/" className="text-blue-600 text-sm hover:underline">← Retour aux recettes</Link>
+      <div className="flex justify-between items-center">
+        <Link to="/" className="text-blue-600 text-sm hover:underline">← Retour aux recettes</Link>
+
+        {isAuthor && (
+          <div className="flex gap-3">
+            <Link
+              to={`/recipes/${recipe.id}/edit`}
+              className="text-sm text-blue-600 hover:underline"
+            >
+              Modifier
+            </Link>
+            <button
+              onClick={handleDelete}
+              disabled={deleting}
+              className="text-sm text-red-600 hover:underline disabled:opacity-50"
+            >
+              {deleting ? 'Suppression...' : 'Supprimer'}
+            </button>
+          </div>
+        )}
+      </div>
 
       <div className="bg-white rounded-lg shadow-sm overflow-hidden mt-4">
         {recipe.imageUrl ? (

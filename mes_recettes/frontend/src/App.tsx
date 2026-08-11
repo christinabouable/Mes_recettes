@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import RecipeDetail from './pages/RecipeDetail';
 import CreateRecipe from './pages/CreateRecipe';
+import EditRecipe from './pages/EditRecipe';
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/recipes/:id" element={<RecipeDetail />} />
           <Route path="/recipes/new" element={<CreateRecipe />} />
+          <Route path="/recipes/:id/edit" element={<EditRecipe />} />
         </Routes>
       </main>
     </div>
