@@ -1,4 +1,4 @@
-import { createContext, useState, ReactNode } from 'react';
+import { createContext, useState, type ReactNode } from 'react';
 import apiClient from '../api/client';
 
 interface User {
@@ -26,9 +26,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   async function register(email: string, username: string, password: string) {
-    const { data } = await apiClient.post('/auth/register', { email, username, password });
-    // Le register ne renvoie pas de token côté backend, donc on connecte automatiquement après
-    await login(email, password);
+   await apiClient.post('/auth/register', { email, username, password });
+   await login(email, password);
   }
 
   function logout() {
