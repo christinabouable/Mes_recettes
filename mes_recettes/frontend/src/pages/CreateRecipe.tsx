@@ -181,7 +181,7 @@ if (categoryId) formData.append('categoryId', categoryId);
           <button
             type="button"
             onClick={addStep}
-            className="mt-2 text-sm text-blue-600 hover:underline"
+            className="mt-2 text-sm text-pink-700/70 hidden sm:inline"
           >
             + Ajouter une étape
           </button>
@@ -190,7 +190,7 @@ if (categoryId) formData.append('categoryId', categoryId);
         <button
           type="submit"
           disabled={submitting}
-          className="bg-blue-600 text-white rounded p-2 font-semibold hover:bg-blue-700 transition disabled:opacity-50"
+          className="bg-pink-600 text-white rounded p-2 font-semibold hover:bg-pink-700 transition shadow-sm"
         >
           {submitting ? 'Création...' : 'Créer la recette'}
         </button>

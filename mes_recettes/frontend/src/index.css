@@ -1,1 +1,29 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap');
+
+@theme {
+  --color-primary: #FF6B4A;
+  --color-primary-dark: #E8542F;
+  --color-primary-light: #FFE4DB;
+
+  --color-secondary: #14B8A6;
+  --color-secondary-dark: #0D9488;
+  --color-secondary-light: #CCFBF1;
+
+  --color-accent: #FFC845;
+  --color-accent-dark: #F5B300;
+
+  --color-cream: #FFF8F3;
+
+  --font-heading: 'Fredoka', sans-serif;
+  --font-sans: 'Nunito', sans-serif;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-cream);
+}
+
+h1, h2, h3, .font-heading {
+  font-family: var(--font-heading);
+}

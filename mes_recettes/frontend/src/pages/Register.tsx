@@ -50,11 +50,11 @@ export default function Register() {
           className="border rounded p-2"
           required
         />
-        <button type="submit" className="bg-blue-600 text-white rounded p-2 font-semibold hover:bg-blue-700 transition">
+        <button type="submit" className="bg-pink-600 text-white rounded p-2 font-semibold hover:bg-pink-700 transition shadow-sm">
           S'inscrire
         </button>
         <p className="text-sm text-center text-gray-600">
-          Déjà un compte ? <Link to="/login" className="text-blue-600 hover:underline">Se connecter</Link>
+          Déjà un compte ? <Link to="/login" className="text-pink-600 hover:underline">Se connecter</Link>
         </p>
       </form>
     </div>

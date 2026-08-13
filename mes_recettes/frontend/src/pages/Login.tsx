@@ -41,11 +41,11 @@ export default function Login() {
           className="border rounded p-2"
           required
         />
-        <button type="submit" className="bg-blue-600 text-white rounded p-2 font-semibold hover:bg-blue-700 transition">
+        <button type="submit" className="bg-pink-600 text-white rounded p-2 font-semibold hover:bg-pink-700 transition shadow-sm">
           Se connecter
         </button>
         <p className="text-sm text-center text-gray-600">
-          Pas de compte ? <Link to="/register" className="text-blue-600 hover:underline">S'inscrire</Link>
+          Pas de compte ? <Link to="/register" className="text-pink-700/70 hidden sm:inline">S'inscrire</Link>
         </p>
       </form>
     </div>
