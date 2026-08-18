@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Centralise les appels HTTP + injecte automatiquement le token JWT
 const apiClient = axios.create({
-  baseURL: 'http://localhost:4000/api',
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:4000/api',
 });
 
 apiClient.interceptors.request.use((config) => {
